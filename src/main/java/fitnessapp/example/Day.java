@@ -1,6 +1,7 @@
 package fitnessapp.example;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Day {
     private LocalDate localDate;
@@ -8,6 +9,14 @@ public class Day {
 
     public Day(LocalDate localDate, List<Training> trainings){
         this.localDate=localDate;
-        this.trainings = trainings
+        this.trainings = trainings;
+    }
+
+    public void addTraining(Training training) {
+        trainings.add(training);
+    }
+
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 }

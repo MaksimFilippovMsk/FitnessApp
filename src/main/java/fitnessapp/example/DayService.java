@@ -7,13 +7,16 @@ import java.util.List;
 public class DayService {
     private DayRepository dayRepository;
 
-    public Day getDayFromLocalDate(LocalDate localDate){
-        Day day = dayRepository.getDay(localDate);
-        return day;
-    }
+//    public Day getDayFromLocalDate(LocalDate localDate){
+//        Day day = dayRepository.getDay(localDate);
+//        return day;
+//    }
 
     public void createEmptyDay(LocalDate localDate){
         Day day = new Day(localDate, new ArrayList<Training>());
         dayRepository.addDay(day);
+    }
+    public void addDay(Day day){
+       dayRepository.addDay(day);
     }
 }
