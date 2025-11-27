@@ -4,19 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class FitnessFrame extends JFrame {
-//    private TrainingService trainingService;
-    private DefaultListModel<Day> dayListModel;
-    private DefaultListModel<Training> trainingListModel;
+    private DayService dayService;
+    private DefaultListModel<Day> swingDayList;
+    private DefaultListModel<Training> swingTrainingList;
     private JList<Day> dayList;
     private JList<Training> trainingList;
     private ActionListener actionListener;
 
     public FitnessFrame() {
+        dayService = new DayService(new DayRepository());
 //        trainingService = new TrainingService();
         initializeUI();
-        loadData();
+        refreshData();
         setVisible(true);
     }
 
@@ -46,8 +48,8 @@ public class FitnessFrame extends JFrame {
         panel.setBorder(BorderFactory.createTitledBorder("Дни тренировок"));
 
         // Модель и список дней
-        dayListModel = new DefaultListModel<>();
-        dayList = new JList<>(dayListModel);
+        swingDayList = new DefaultListModel<>();
+        dayList = new JList<>(swingDayList);
         dayList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // Панель кнопок для дней
@@ -56,6 +58,8 @@ public class FitnessFrame extends JFrame {
         JButton deleteDayBtn = new JButton("Удалить день");
 
         addDayBtn.addActionListener(e -> addDay());
+
+
 //        deleteDayBtn.addActionListener(e -> deleteDay());
 
         buttonPanel.add(addDayBtn);
@@ -72,8 +76,8 @@ public class FitnessFrame extends JFrame {
         panel.setBorder(BorderFactory.createTitledBorder("Тренировки"));
 
         // Модель и список тренировок
-        trainingListModel = new DefaultListModel<>();
-        trainingList = new JList<>(trainingListModel);
+        swingTrainingList = new DefaultListModel<>();
+        trainingList = new JList<>(swingTrainingList);
 
         // Панель кнопок для тренировок
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -101,7 +105,7 @@ public class FitnessFrame extends JFrame {
         panel.add(new JLabel("Дата (ГГГГ-ММ-ДД):"));
         panel.add(dateField);
         panel.add(new JLabel("Описание:"));
-        panel.add(descField);
+        panel.add(descField);      // todo remove
 
         int result = JOptionPane.showConfirmDialog(this, panel,
                 "Новый день тренировки", JOptionPane.OK_CANCEL_OPTION);
@@ -109,8 +113,8 @@ public class FitnessFrame extends JFrame {
         if (result == JOptionPane.OK_OPTION) {
             try {
                 LocalDate date = LocalDate.parse(dateField.getText());
-                Day newDay = new Day(date, descField.getText());
-                trainingService.addDay(newDay);
+                Day newDay = new Day(date, new ArrayList<>());
+                dayService.addDay(newDay);
                 refreshData();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Ошибка в формате даты!");
@@ -152,13 +156,12 @@ public class FitnessFrame extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             Training training = new Training(
-//                    nameField.getText(),
-//                    (String) typeCombo.getSelectedItem(),
-//                    (Integer) durationSpinner.getValue(),
-//                    ""
+                    nameField.getText(),
+                    (String) typeCombo.getSelectedItem(),
+                    (Integer) durationSpinner.getValue()
             );
-//            trainingService.addTraining(training);
-//            refreshData();
+            trainingService.addTraining(training);
+            refreshData();
         }
     }
 
@@ -180,14 +183,10 @@ public class FitnessFrame extends JFrame {
     }
 
     private void refreshData() {
-        dayListModel.clear();
-        trainingService.getAllDays().forEach(dayListModel::addElement);
+        swingDayList.clear();
+        dayService.getAllDays().forEach(swingDayList::addElement);
 
-        trainingListModel.clear();
-        trainingService.getAllTrainings().forEach(trainingListModel::addElement);
-    }
-
-    private void loadData() {
-//        refreshData();
+        swingTrainingList.clear();
+//        trainingService.getAllTrainings().forEach(trainingListModel::addElement);
     }
 }

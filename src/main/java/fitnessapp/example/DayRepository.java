@@ -10,5 +10,7 @@ public class DayRepository {
     public void addDay(Day day){
         days.add(day);
     }
-
+    public List<Day> getAllDays() {
+        return new ArrayList<>(days);
+    }
 }

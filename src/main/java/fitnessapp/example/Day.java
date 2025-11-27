@@ -2,6 +2,7 @@ package fitnessapp.example;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Day {
     private LocalDate localDate;
@@ -18,5 +19,26 @@ public class Day {
 
     public LocalDate getLocalDate() {
         return localDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "Дата:" + localDate +
+                "Название тренировки:" + trainings +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Day day = (Day) o;
+        return Objects.equals(getLocalDate(), day.getLocalDate()) && Objects.equals(trainings, day.trainings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLocalDate(), trainings);
     }
 }
