@@ -11,6 +11,10 @@ public class DayService {
         this.dayRepository = dayRepository;
     }
 
+    public void addTrainingToDay(LocalDate date,Training training){
+        dayRepository.getDayFromDate(date).addTraining(training);
+    }
+
 
 //    public Day getDayFromLocalDate(LocalDate localDate){
 //        Day day = dayRepository.getDay(localDate);

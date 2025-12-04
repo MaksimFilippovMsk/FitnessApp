@@ -23,10 +23,9 @@ public class Day {
 
     @Override
     public String toString() {
-        return "Day{" +
+        return "Day" +
                 "Дата:" + localDate +
-                "Название тренировки:" + trainings +
-                '}';
+                "Название тренировки:" + trainings;
     }
 
     @Override

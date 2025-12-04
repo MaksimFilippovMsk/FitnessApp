@@ -13,10 +13,11 @@ public class FitnessFrame extends JFrame {
     private JList<Day> dayList;
     private JList<Training> trainingList;
     private ActionListener actionListener;
+    private TrainingService trainingService;
 
     public FitnessFrame() {
         dayService = new DayService(new DayRepository());
-//        trainingService = new TrainingService();
+        trainingService = new TrainingService(new TrainingRepository(new ArrayList<>()));
         initializeUI();
         refreshData();
         setVisible(true);
@@ -175,11 +176,11 @@ public class FitnessFrame extends JFrame {
             return;
         }
 
-//        trainingService.addTrainingToDay(selectedDay.getDate(), selectedTraining);
-//        JOptionPane.showMessageDialog(this,
-//                "Тренировка '" + selectedTraining.getName() +
-//                        "' добавлена к " + selectedDay.getDate());
-//        refreshData();
+        dayService.addTrainingToDay(selectedDay.getLocalDate(), selectedTraining);
+        JOptionPane.showMessageDialog(this,
+                "Тренировка '" + selectedTraining.name() +
+                        "' добавлена к " + selectedDay.getLocalDate());
+        refreshData();
     }
 
     private void refreshData() {
@@ -187,6 +188,6 @@ public class FitnessFrame extends JFrame {
         dayService.getAllDays().forEach(swingDayList::addElement);
 
         swingTrainingList.clear();
-//        trainingService.getAllTrainings().forEach(trainingListModel::addElement);
+        trainingService.getAllTrainings().forEach(swingTrainingList::addElement);
     }
 }

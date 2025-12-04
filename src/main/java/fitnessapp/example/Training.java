@@ -11,4 +11,8 @@ package fitnessapp.example;
 
 public record Training(String name, String selectedItem, Integer value) {
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
