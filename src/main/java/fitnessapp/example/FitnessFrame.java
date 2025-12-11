@@ -157,6 +157,7 @@ public class FitnessFrame extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             Training training = new Training(
+
                     nameField.getText(),
                     (String) typeCombo.getSelectedItem(),
                     (Integer) durationSpinner.getValue()
