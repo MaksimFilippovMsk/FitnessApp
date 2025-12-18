@@ -1,22 +1,24 @@
 package fitnessapp.example;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class TrainingService {
 
-    private TrainingRepository trainingRepository;
+    private TrainingDAO trainingDAO;
 
-    public TrainingService(TrainingRepository trainingRepository) {
-        this.trainingRepository = trainingRepository;
+    public TrainingService(TrainingDAO trainingDAO) {
+        this.trainingDAO = trainingDAO;
     }
 
     public void addTraining(Training training){
-        trainingRepository.addTraining(training);
+        trainingDAO.createTraining(training);
     }
-    public List<Training> getAllTrainings(){
-        return trainingRepository.getAllTrainings();
-    }
+//    public List<Training> getAllTrainings(){
+//        return trainingDAO.findAll();
+//    }
 
     //todo
 

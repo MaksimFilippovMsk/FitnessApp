@@ -1,5 +1,7 @@
 package fitnessapp.example;
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;

@@ -12,9 +12,11 @@ package fitnessapp.example;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-public record Training {
+@Table(name="trainings")
+public class Training {
     @Id
     @Column (name = "name")
     String name;
@@ -23,8 +25,18 @@ public record Training {
     @Column(name ="duration")
     Integer duration;
 
+    public Training(String name, String type, Integer duration) {
+        this.name = name;
+        this.type = type;
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
+        return name;
+    }
+
+    public String getName() {
         return name;
     }
 }

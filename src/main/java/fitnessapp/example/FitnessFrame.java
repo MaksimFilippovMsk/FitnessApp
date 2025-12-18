@@ -1,10 +1,16 @@
 package fitnessapp.example;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 
 public class FitnessFrame extends JFrame {
     private DayService dayService;
@@ -13,11 +19,18 @@ public class FitnessFrame extends JFrame {
     private JList<Day> dayList;
     private JList<Training> trainingList;
     private ActionListener actionListener;
-    private TrainingService trainingService;
+    private AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("fitnessapp.example");
+
+    {
+        context.refresh();
+    }
+
+    private TrainingService trainingService = context.getBean(TrainingService.class);
 
     public FitnessFrame() {
+
+
         dayService = new DayService(new DayRepository());
-        trainingService = new TrainingService(new TrainingRepository(new ArrayList<>()));
         initializeUI();
         refreshData();
         setVisible(true);
@@ -179,7 +192,7 @@ public class FitnessFrame extends JFrame {
 
         dayService.addTrainingToDay(selectedDay.getLocalDate(), selectedTraining);
         JOptionPane.showMessageDialog(this,
-                "Тренировка '" + selectedTraining.name() +
+                "Тренировка '" + selectedTraining.getName() +
                         "' добавлена к " + selectedDay.getLocalDate());
         refreshData();
     }
@@ -189,6 +202,6 @@ public class FitnessFrame extends JFrame {
         dayService.getAllDays().forEach(swingDayList::addElement);
 
         swingTrainingList.clear();
-        trainingService.getAllTrainings().forEach(swingTrainingList::addElement);
+//        trainingService.getAllTrainings().forEach(swingTrainingList::addElement);
     }
 }
